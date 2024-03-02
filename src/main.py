@@ -497,6 +497,8 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         self.init_combobox()
 
     def start(self):
+        if self.processComboBox.currentIndex() < 0:
+            return
         dic = combobox_dic[self.processComboBox.currentIndex()]
         cwd = dic['cwd']
         if 'dir' in dic.keys():
