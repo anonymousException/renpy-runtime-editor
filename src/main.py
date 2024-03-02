@@ -483,6 +483,10 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         self.versionLabel.setStyleSheet("color:grey")
         self.copyrightLabel.setStyleSheet("color:grey")
         self.actioncopyright.triggered.connect(lambda: self.show_copyright_form())
+        self.logButton.clicked.connect(self.open_log_file)
+
+    def open_log_file(self):
+        subprocess.Popen('notepad ' + log_path)
 
     def show_copyright_form(self):
         copyright_form = MyCopyrightForm(parent=self)

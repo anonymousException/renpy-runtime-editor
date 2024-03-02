@@ -50,6 +50,9 @@ class Ui_MainWindow(object):
         self.versionLabel = QLabel(self.centralwidget)
         self.versionLabel.setObjectName(u"versionLabel")
         self.versionLabel.setGeometry(QRect(10, 100, 91, 16))
+        self.logButton = QPushButton(self.centralwidget)
+        self.logButton.setObjectName(u"logButton")
+        self.logButton.setGeometry(QRect(560, 50, 121, 24))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -71,13 +74,14 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Renpy Runtime Editor", None))
-        self.actioncopyright.setText(QCoreApplication.translate("MainWindow", u"copyright_form.py", None))
+        self.actioncopyright.setText(QCoreApplication.translate("MainWindow", u"copyright", None))
         self.refreshButton.setText(QCoreApplication.translate("MainWindow", u"Refresh Process", None))
         self.onlyCheckBox.setText(QCoreApplication.translate("MainWindow", u"Show Renpy Process Only", None))
         self.startButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
         self.refreshCheckBox.setText(QCoreApplication.translate("MainWindow", u"Auto Refresh After Return", None))
         self.copyrightLabel.setText(QCoreApplication.translate("MainWindow", u"\u00a92024 Last moment,All rights reserved.", None))
         self.versionLabel.setText(QCoreApplication.translate("MainWindow", u"Version 1.0.0", None))
+        self.logButton.setText(QCoreApplication.translate("MainWindow", u"Open Log File", None))
         self.aboutMenu.setTitle(QCoreApplication.translate("MainWindow", u"about", None))
     # retranslateUi
 
