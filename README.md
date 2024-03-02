@@ -1,7 +1,7 @@
 
 <div align=center><img src = "https://www.renpy.org/static/index-logo.png"></div>
 
-# <div align=center>Renpy Translator</div>
+# <div align=center>Renpy Runtime Editor</div>
 
 <div align=center>A free and open-source runtime editor for ren'py</div>
 
@@ -46,8 +46,6 @@ https://github.com/anonymousException/renpy-runtime-editor/assets/157234942/6b1f
 An unpacked ren‘py game (for what you can find .rpa files under the game directory)  like this:
 
 ![img](https://github.com/anonymousException/renpy-translator/blob/main/docs/img/unpacked.png)
-
-You can try to translate [the tutorial game](https://github.com/anonymousException/renpy-translator/blob/main/docs/demo_game/DemoGame-1.0-win.zip) following the tutorial
 
 if not you can try to unpack it
 
