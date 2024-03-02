@@ -71,32 +71,30 @@ init python:
             f = io.open(file_name, 'r', encoding='utf-8')
             loaded_data = json.load(f)
             f.close()
-            f = io.open(file_name, 'w', encoding='utf-8')
             loaded_data[self.identifier] = {"ori_what":ori_rv.what,"lookup_lan":renpy.game.preferences.language,"file_name":d[0],"line_number":d[1]}
-            json.dump(loaded_data, f)
+            with io.open(file_name,'w',encoding="utf-8") as outfile:
+                outfile.write(unicode(json.dumps(loaded_data, ensure_ascii=False)))
             f.close()
         else:
-            f = io.open(file_name, 'w', encoding='utf-8')
             dic = dict()
             dic[self.identifier] = {"ori_what":ori_rv.what,"lookup_lan":renpy.game.preferences.language,"file_name":d[0],"line_number":d[1]}
-            json.dump(dic, f)
-            f.close()
+            with io.open(file_name,'w',encoding="utf-8") as outfile:
+                outfile.write(unicode(json.dumps(dic, ensure_ascii=False)))
         return rv
 
     renpy.ast.Translate.lookup = my_lookup
-    
-    
+
+
     def my_hook(event, **kwargs):
         if event == "begin":
-            renpy.checkpoint()    
+            renpy.checkpoint()
             d = renpy.get_filename_line()
             e = inspect.currentframe().f_back.f_locals
 
-            if os.path.isfile(file_name) and os.path.getsize(file_name):           
+            if os.path.isfile(file_name) and os.path.getsize(file_name):
                 f = io.open(file_name, 'r', encoding='utf-8')
                 loaded_data = json.load(f)
                 f.close()
-                f = io.open(file_name, 'w', encoding='utf-8')
                 cur_id = get_translation_identifier()
                 if cur_id not in loaded_data.keys():
                     return
@@ -112,8 +110,8 @@ init python:
                 if hook_last_translate_id is not None and hook_last_translate_id != cur_id and hook_last_translate_id in loaded_data.keys():
                     loaded_data.pop(hook_last_translate_id)
                 hook_last_translate_id = cur_id
-                json.dump(loaded_data, f)
-                f.close()
+                with io.open(file_name,'w',encoding="utf-8") as outfile:
+                    outfile.write(unicode(json.dumps(loaded_data, ensure_ascii=False)))
             else:
                 pass
                 

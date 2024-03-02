@@ -513,7 +513,6 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
             p = reboot_process(p,cwd)
 
         runtime_form = MyRuntimeForm(parent=self)
-        self.hide()
         if os.path.isfile(json_path):
             try:
                 os.remove(json_path)
@@ -522,7 +521,6 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         global last_data
         last_data = None
         runtime_form.exec()
-        self.show()
         if self.refreshCheckBox.isChecked():
             self.init_combobox()
 
