@@ -36,7 +36,7 @@ class Ui_CopyrightDialog(object):
         self.label_2.setFont(font)
         self.url_label = QLabel(CopyrightDialog)
         self.url_label.setObjectName(u"url_label")
-        self.url_label.setGeometry(QRect(40, 130, 591, 41))
+        self.url_label.setGeometry(QRect(20, 130, 641, 41))
         font1 = QFont()
         font1.setPointSize(16)
         font1.setUnderline(True)
@@ -58,7 +58,7 @@ class Ui_CopyrightDialog(object):
         CopyrightDialog.setWindowTitle(QCoreApplication.translate("CopyrightDialog", u"CopyRight", None))
         self.label.setText(QCoreApplication.translate("CopyrightDialog", u"The software is completely free and open-source", None))
         self.label_2.setText(QCoreApplication.translate("CopyrightDialog", u"You can view the source code from ", None))
-        self.url_label.setText(QCoreApplication.translate("CopyrightDialog", u"https://github.com/anonymousException/renpy-translator", None))
+        self.url_label.setText(QCoreApplication.translate("CopyrightDialog", u"https://github.com/anonymousException/renpy-runtime-editor", None))
         self.label_3.setText(QCoreApplication.translate("CopyrightDialog", u"This item is available for research and study. In no event shall the author or copyright holder be liable for any claims, damages, or other liabilities arising out of or in connection with the software or the use of the software or other dealings with the software, whether in an action in contract, an action for infringement, or any other proceeding", None))
     # retranslateUi
 
