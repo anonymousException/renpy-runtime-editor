@@ -11,6 +11,16 @@ init python:
     my_old_show_screen = renpy.show_screen
     my_old_hide_screen = renpy.hide_screen
 
+    def get_translation_identifier():
+        """
+        :doc: translation_functions
+
+        Returns the translation identifier for the current statement.
+        """
+
+        ctx = renpy.game.contexts[-1]
+        return ctx.translate_identifier or ctx.deferred_translate_identifier
+
     def reload():
         if os.path.isfile(reload_check_file_name):
             os.remove(reload_check_file_name)
@@ -87,7 +97,7 @@ init python:
                 loaded_data = json.load(f)
                 f.close()
                 f = io.open(file_name, 'w', encoding='utf-8')
-                cur_id = renpy.get_translation_identifier()
+                cur_id = get_translation_identifier()
                 if cur_id not in loaded_data.keys():
                     return
                 item = loaded_data[cur_id]
