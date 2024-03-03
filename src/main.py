@@ -28,6 +28,7 @@ reload_check_file_name = 'renpy_runtime_editor.reload'
 reload_check_file_path = None
 current_work_directory = None
 last_data = None
+is_replaced_end = False
 
 def compare_files(file1, file2):
     hash1 = hashlib.md5()
@@ -232,6 +233,8 @@ class MyRuntimeForm(QDialog, Ui_runtimeDialog):
                             f.close()
                             if replaced_content != content:
                                 is_tl_target_replaced = True
+                            if who is not None:
+                                is_tl_target_replaced = False
                         except Exception:
                             pass
 
@@ -262,15 +265,15 @@ class MyRuntimeForm(QDialog, Ui_runtimeDialog):
 
         self.list_widget.clear()
 
-        if self.autoReloadCheckBox.isChecked():
-            self.reload_scirpts()
-
     @staticmethod
     def replace_threads_over():
         for t in replace_threads:
             t.join()
         if os.path.isfile('replacing'):
             os.remove('replacing')
+        global is_replaced_end
+        is_replaced_end = True
+
 
     def reload_scirpts(self):
         try:
@@ -428,6 +431,10 @@ class MyRuntimeForm(QDialog, Ui_runtimeDialog):
         else:
             self.replaceButton.setText('Replace to file(s)')
             self.replaceButton.setEnabled(True)
+            global is_replaced_end
+            if is_replaced_end and self.autoReloadCheckBox.isChecked():
+                self.reload_scirpts()
+                is_replaced_end = False
 
         global last_data
         if data != last_data:
@@ -520,7 +527,9 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
                 pass
         global last_data
         last_data = None
+        self.setVisible(False)
         runtime_form.exec()
+        self.setVisible(True)
         if self.refreshCheckBox.isChecked():
             self.init_combobox()
 

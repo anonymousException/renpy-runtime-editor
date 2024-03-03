@@ -96,7 +96,7 @@ class Ui_runtimeDialog(object):
         self.reloadButton.setText(QCoreApplication.translate("runtimeDialog", u"Reload Game Scripts ", None))
         self.autoReloadCheckBox.setText(QCoreApplication.translate("runtimeDialog", u"Enable auto reload after replace", None))
         self.label_4.setText(QCoreApplication.translate("runtimeDialog", u"Edited List (Left-Click to re-edit ; Right-Click to delete)", None))
-        self.versionLabel.setText(QCoreApplication.translate("runtimeDialog", u"Version 1.0.0", None))
+        self.versionLabel.setText(QCoreApplication.translate("runtimeDialog", u"Version 1.1.0", None))
         self.copyrightLabel.setText(QCoreApplication.translate("runtimeDialog", u"\u00a92024 Last moment,All rights reserved.", None))
     # retranslateUi
 
