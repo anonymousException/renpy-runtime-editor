@@ -37,6 +37,7 @@ jobs:
     - run: xcopy build\main.dist dist\windows /E
     - run: copy src\main.ico dist\windows\main.ico
     - run: copy src\renpy_runtime_editor_hook.rpy dist\windows\renpy_runtime_editor_hook.rpy
+    - run: copy src\enhance_who_replace.rpy dist\windows\enhance_who_replace.rpy
 
     - uses: actions/upload-artifact@v4
       with:
