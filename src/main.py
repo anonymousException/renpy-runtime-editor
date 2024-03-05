@@ -9,6 +9,8 @@ import tempfile
 import time
 import psutil
 import hashlib
+
+from PySide6 import QtCore
 from PySide6.QtCore import Signal, QThread, Qt, QPoint
 from PySide6.QtGui import QIcon, QTextCursor, QMouseEvent, QCursor
 from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QInputDialog, QLineEdit, QVBoxLayout, QTextEdit, \
@@ -16,13 +18,15 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QDialog, QInputDialog, 
 
 from copyright_form import MyCopyrightForm
 from replace_thread import replaceThread, replace_threads
-from runtime import Ui_runtimeDialog
+from runtime import Ui_runtimeForm
 from ui import Ui_MainWindow
 from my_log import log_print, log_path
 
 combobox_dic = dict()
 
-rpy_file_name = 'renpy_runtime_editor_hook.rpy'
+hook_rpy_file_name = 'renpy_runtime_editor_hook.rpy'
+enhance_rpy_file_name = 'enhance_who_replace.rpy'
+enhance_json_file_name = 'enhance_who_replace.json'
 json_path = tempfile.gettempdir() + '/' + 'renpy_runtime_editor_hooked.json'
 reload_check_file_name = 'renpy_runtime_editor.reload'
 reload_check_file_path = None
@@ -152,10 +156,11 @@ class MyInputDialog(QDialog):
         return self.text_edit.toPlainText()
 
 
-class MyRuntimeForm(QDialog, Ui_runtimeDialog):
+class MyRuntimeForm(QDialog, Ui_runtimeForm):
     def __init__(self, parent=None):
         super(MyRuntimeForm, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowIcon(QIcon('main.ico'))
         self.is_end = False
         _thread.start_new_thread(self.update_log, ())
         self.whoEditButton.clicked.connect(self.who_edit_click)
@@ -182,6 +187,8 @@ class MyRuntimeForm(QDialog, Ui_runtimeDialog):
             return
         global current_work_directory
         cnt = 0
+        who_dic = dict()
+        lan = ''
         for i in range(count):
             e = self.list_widget.item(i)
             if e is not None and e.data(Qt.UserRole) is not None:
@@ -192,8 +199,11 @@ class MyRuntimeForm(QDialog, Ui_runtimeDialog):
                 file_name = getItem('file_name', e)
                 line_number = getItem('line_number', e)
                 lookup_lan = getItem('lookup_lan', e)
+                lan = lookup_lan
                 if text is None or file_name is None or lookup_lan is None or line_number is None:
                     continue
+                if who is not None:
+                    who_dic[who] = text
                 file_name = current_work_directory+'/'+file_name
                 is_file_name_to_tl = False
                 if file_name.startswith('game/tl/'):
@@ -256,6 +266,26 @@ class MyRuntimeForm(QDialog, Ui_runtimeDialog):
                             t.start()
                             replace_threads.append(t)
                             cnt = cnt + 1
+
+        is_enhance_mode = self.enhanceCheckBox.isChecked()
+        if is_enhance_mode:
+            try:
+                target_file = current_work_directory+'/game/tl/'+lan+'/'+enhance_json_file_name
+                loaded_data = None
+                if os.path.isfile(target_file) and os.path.getsize(target_file):
+                    f = io.open(target_file, 'r', encoding='utf-8')
+                    loaded_data = json.load(f)
+                    f.close()
+                f = io.open(target_file, 'w+', encoding='utf-8')
+                if loaded_data is not None:
+                    for key,value in who_dic.items():
+                        loaded_data[key] = value
+                    json.dump(loaded_data, f)
+                else:
+                    json.dump(who_dic, f)
+                f.close()
+            except Exception as e:
+                log_print(e)
 
         if len(replace_threads) > 0:
             open('replacing', "w")
@@ -392,7 +422,15 @@ class MyRuntimeForm(QDialog, Ui_runtimeDialog):
             dic['file_name'] = file_name
             dic['line_number'] = line_number
             item = QListWidgetItem()
-            dialog.text_edit_ori.setText(dic['who'])
+            target_file = current_work_directory + '/game/tl/' + dic['lookup_lan'] + '/' + enhance_json_file_name
+            who = dic['who']
+            if os.path.isfile(target_file) and os.path.getsize(target_file):
+                f = io.open(target_file, 'r', encoding='utf-8')
+                loaded_data = json.load(f)
+                for key, value in loaded_data.items():
+                    who = dic['who'].replace(key, value)
+                f.close()
+            dialog.text_edit_ori.setText(who)
             is_item_exist = False
             count = self.list_widget.count()
             for i in range(count):
@@ -408,9 +446,17 @@ class MyRuntimeForm(QDialog, Ui_runtimeDialog):
             if dialog.exec():
                 text = dialog.getText()
                 dic['text'] = text
-                item.setText(dic['who'] + '-->' + text)
+                who = dic ['who']
+                target_file = current_work_directory + '/game/tl/' + dic['lookup_lan'] + '/' + enhance_json_file_name
+                if os.path.isfile(target_file) and os.path.getsize(target_file):
+                    f = io.open(target_file, 'r', encoding='utf-8')
+                    loaded_data = json.load(f)
+                    for key, value in loaded_data.items():
+                        who = dic['who'].replace(key, value)
+                    f.close()
+                item.setText(who + '-->' + text)
                 item.setData(Qt.UserRole, dic)
-                if not (self.wholineEdit.text() == text and is_item_exist or text == dic['who']):
+                if not (self.wholineEdit.text() == text and is_item_exist or text == who):
                     self.list_widget.addItem(item)
                 self.wholineEdit.setText(text)
 
@@ -446,6 +492,20 @@ class MyRuntimeForm(QDialog, Ui_runtimeDialog):
                     if cur_id in js.keys():
                         cur_id = js[cur_id]
                         if 'who' in cur_id.keys():
+                            target_dir = current_work_directory + '/game/tl/' + cur_id['lookup_lan']
+                            target_rpy_file = target_dir + '/' + enhance_rpy_file_name
+                            target_json_file = target_dir  + '/' + enhance_json_file_name
+                            if not os.path.isfile(
+                                    target_rpy_file + 'c') or not compare_files(
+                                    target_rpy_file, enhance_rpy_file_name):
+                                shutil.copyfile(enhance_rpy_file_name,
+                                                target_rpy_file)
+                            if os.path.isfile(target_json_file) and os.path.getsize(target_json_file):
+                                f = io.open(target_json_file, 'r', encoding='utf-8')
+                                loaded_data = json.load(f)
+                                for key,value in loaded_data.items():
+                                    cur_id['who'] = cur_id['who'].replace(key, value)
+                                f.close()
                             self.wholineEdit.setText(cur_id['who'])
                         if 'ori_what' in cur_id.keys():
                             self.oriWhatTextEdit.setText(cur_id['ori_what'])
@@ -514,12 +574,12 @@ class MyMainForm(QMainWindow, Ui_MainWindow):
         global current_work_directory
         current_work_directory = cwd
         reload_check_file_path = cwd + '/' + reload_check_file_name
-        if not os.path.isfile(cwd + '/game/' + rpy_file_name + 'c') or not compare_files(cwd + '/game/' + rpy_file_name,rpy_file_name):
-            shutil.copyfile(rpy_file_name, cwd + '/game/' + rpy_file_name)
+        if not os.path.isfile(cwd + '/game/' + hook_rpy_file_name + 'c') or not compare_files(cwd + '/game/' + hook_rpy_file_name,hook_rpy_file_name):
+            shutil.copyfile(hook_rpy_file_name, cwd + '/game/' + hook_rpy_file_name)
             p = psutil.Process(dic['pid'])
             p = reboot_process(p,cwd)
 
-        runtime_form = MyRuntimeForm(parent=self)
+        runtime_form = MyRuntimeForm(parent=None)
         if os.path.isfile(json_path):
             try:
                 os.remove(json_path)

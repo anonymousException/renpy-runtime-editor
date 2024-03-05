@@ -4,7 +4,7 @@ init python:
     import io
     import json
     import time
-    file_name = tempfile.gettempdir()+'/'+'renpy_runtime_editor'+'_hooked.json'
+    renpy_runtime_editor_hook_file_name = tempfile.gettempdir()+'/'+'renpy_runtime_editor'+'_hooked.json'
     reload_check_file_name = 'renpy_runtime_editor.reload'
     my_old_lookup = renpy.ast.Translate.lookup
     my_old_reload_script = renpy.reload_script
@@ -25,7 +25,7 @@ init python:
         if os.path.isfile(reload_check_file_name):
             os.remove(reload_check_file_name)
             try:
-                os.remove(file_name)
+                os.remove(renpy_runtime_editor_hook_file_name)
             except Exception:
                 pass
             renpy.reload_script()
@@ -67,18 +67,18 @@ init python:
         renpy.game.preferences.language = ori_language
         rv = my_old_lookup(self)
         d = renpy.get_filename_line()
-        if os.path.isfile(file_name) and os.path.getsize(file_name):
-            f = io.open(file_name, 'r', encoding='utf-8')
+        if os.path.isfile(renpy_runtime_editor_hook_file_name) and os.path.getsize(renpy_runtime_editor_hook_file_name):
+            f = io.open(renpy_runtime_editor_hook_file_name, 'r', encoding='utf-8')
             loaded_data = json.load(f)
             f.close()
             loaded_data[self.identifier] = {"ori_what":ori_rv.what,"lookup_lan":renpy.game.preferences.language,"file_name":d[0],"line_number":d[1]}
-            with io.open(file_name,'w',encoding="utf-8") as outfile:
+            with io.open(renpy_runtime_editor_hook_file_name,'w',encoding="utf-8") as outfile:
                 outfile.write(unicode(json.dumps(loaded_data, ensure_ascii=False)))
             f.close()
         else:
             dic = dict()
             dic[self.identifier] = {"ori_what":ori_rv.what,"lookup_lan":renpy.game.preferences.language,"file_name":d[0],"line_number":d[1]}
-            with io.open(file_name,'w',encoding="utf-8") as outfile:
+            with io.open(renpy_runtime_editor_hook_file_name,'w',encoding="utf-8") as outfile:
                 outfile.write(unicode(json.dumps(dic, ensure_ascii=False)))
         return rv
 
@@ -87,12 +87,11 @@ init python:
 
     def my_hook(event, **kwargs):
         if event == "begin":
-            renpy.checkpoint()
             d = renpy.get_filename_line()
             e = inspect.currentframe().f_back.f_locals
 
-            if os.path.isfile(file_name) and os.path.getsize(file_name):
-                f = io.open(file_name, 'r', encoding='utf-8')
+            if os.path.isfile(renpy_runtime_editor_hook_file_name) and os.path.getsize(renpy_runtime_editor_hook_file_name):
+                f = io.open(renpy_runtime_editor_hook_file_name, 'r', encoding='utf-8')
                 loaded_data = json.load(f)
                 f.close()
                 cur_id = get_translation_identifier()
@@ -110,7 +109,7 @@ init python:
                 if hook_last_translate_id is not None and hook_last_translate_id != cur_id and hook_last_translate_id in loaded_data.keys():
                     loaded_data.pop(hook_last_translate_id)
                 hook_last_translate_id = cur_id
-                with io.open(file_name,'w',encoding="utf-8") as outfile:
+                with io.open(renpy_runtime_editor_hook_file_name,'w',encoding="utf-8") as outfile:
                     outfile.write(unicode(json.dumps(loaded_data, ensure_ascii=False)))
             else:
                 pass
