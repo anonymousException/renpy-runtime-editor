@@ -99,7 +99,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Version 1.3.0</string>
+     <string>Version 1.4.0</string>
     </property>
    </widget>
    <widget class="QPushButton" name="logButton">

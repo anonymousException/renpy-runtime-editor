@@ -71,13 +71,13 @@ init python:
             f = io.open(renpy_runtime_editor_hook_file_name, 'r', encoding='utf-8')
             loaded_data = json.load(f)
             f.close()
-            loaded_data[self.identifier] = {"ori_what":ori_rv.what,"lookup_lan":renpy.game.preferences.language,"file_name":d[0],"line_number":d[1]}
+            loaded_data[self.identifier] = {"ori_what":ori_rv.what,"what":rv.what,"lookup_lan":renpy.game.preferences.language,"file_name":d[0],"line_number":d[1]}
             with io.open(renpy_runtime_editor_hook_file_name,'w',encoding="utf-8") as outfile:
                 outfile.write(unicode(json.dumps(loaded_data, ensure_ascii=False)))
             f.close()
         else:
             dic = dict()
-            dic[self.identifier] = {"ori_what":ori_rv.what,"lookup_lan":renpy.game.preferences.language,"file_name":d[0],"line_number":d[1]}
+            dic[self.identifier] = {"ori_what":ori_rv.what,"what":rv.what,"lookup_lan":renpy.game.preferences.language,"file_name":d[0],"line_number":d[1]}
             with io.open(renpy_runtime_editor_hook_file_name,'w',encoding="utf-8") as outfile:
                 outfile.write(unicode(json.dumps(dic, ensure_ascii=False)))
         return rv
@@ -100,10 +100,7 @@ init python:
                 item = loaded_data[cur_id]
                 if 'who' not in loaded_data.keys():
                     loaded_data['who'] = [e.get("who")]
-                if 'what' not in loaded_data.keys():
-                    loaded_data['what'] = [e.get("what")]
                 item['who']=e.get("who")
-                item['what']=(e.get("what"))
                 loaded_data['cur_id'] = cur_id
                 global hook_last_translate_id
                 if hook_last_translate_id is not None and hook_last_translate_id != cur_id and hook_last_translate_id in loaded_data.keys():
