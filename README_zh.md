@@ -8,9 +8,9 @@
 
 ------
 
-<div align=center><img src = "https://github.com/anonymousException/renpy-runtime-editor/blob/main/docs/img/interface_v1.2.0_main.png"></div>
+<div align=center><img src = "https://github.com/anonymousException/renpy-runtime-editor/blob/main/docs/img/interface_v1.4.0_main.png"></div>
 
-<div align=center><img src = "https://github.com/anonymousException/renpy-runtime-editor/blob/main/docs/img/interface_v1.2.0_runtime.png"></div>
+<div align=center><img src = "https://github.com/anonymousException/renpy-runtime-editor/blob/main/docs/img/interface_v1.4.0_runtime.png"></div>
 
 ------
 
