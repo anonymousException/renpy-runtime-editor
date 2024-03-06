@@ -287,11 +287,10 @@ class MyRuntimeForm(QDialog, Ui_runtimeForm):
             except Exception as e:
                 log_print(e)
 
-        if len(replace_threads) > 0:
-            open('replacing', "w")
-            self.replaceButton.setText('replacing...')
-            self.replaceButton.setDisabled(True)
-            _thread.start_new_thread(self.replace_threads_over, ())
+        open('replacing', "w")
+        self.replaceButton.setText('replacing...')
+        self.replaceButton.setDisabled(True)
+        _thread.start_new_thread(self.replace_threads_over, ())
 
         self.list_widget.clear()
 

@@ -80,7 +80,7 @@ class Ui_MainWindow(object):
         self.startButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
         self.refreshCheckBox.setText(QCoreApplication.translate("MainWindow", u"Auto Refresh After Return", None))
         self.copyrightLabel.setText(QCoreApplication.translate("MainWindow", u"\u00a92024 Last moment,All rights reserved.", None))
-        self.versionLabel.setText(QCoreApplication.translate("MainWindow", u"Version 1.2.0", None))
+        self.versionLabel.setText(QCoreApplication.translate("MainWindow", u"Version 1.3.0", None))
         self.logButton.setText(QCoreApplication.translate("MainWindow", u"Open Log File", None))
         self.aboutMenu.setTitle(QCoreApplication.translate("MainWindow", u"about", None))
     # retranslateUi
