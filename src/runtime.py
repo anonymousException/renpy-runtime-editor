@@ -97,7 +97,7 @@ class Ui_runtimeForm(object):
         self.label.setText(QCoreApplication.translate("runtimeForm", u"original what", None))
         self.autoReloadCheckBox.setText(QCoreApplication.translate("runtimeForm", u"Enable auto reload after replace", None))
         self.replaceButton.setText(QCoreApplication.translate("runtimeForm", u"Replace to file(s)", None))
-        self.versionLabel.setText(QCoreApplication.translate("runtimeForm", u"Version 1.4.0", None))
+        self.versionLabel.setText(QCoreApplication.translate("runtimeForm", u"Version 1.5.0", None))
         self.enhanceCheckBox.setText(QCoreApplication.translate("runtimeForm", u"Enhance Mode", None))
         self.oriWhatEditButton.setText(QCoreApplication.translate("runtimeForm", u"edit", None))
         self.currentWhatEditButton.setText(QCoreApplication.translate("runtimeForm", u"edit", None))

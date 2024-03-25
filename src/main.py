@@ -198,9 +198,9 @@ class MyRuntimeForm(QDialog, Ui_runtimeForm):
                 text = getItem('text', e)
                 file_name = getItem('file_name', e)
                 line_number = getItem('line_number', e)
-                lookup_lan = getItem('lookup_lan', e)
+                lookup_lan = str(getItem('lookup_lan', e))
                 lan = lookup_lan
-                if text is None or file_name is None or lookup_lan is None or line_number is None:
+                if text is None or file_name is None or line_number is None:
                     continue
                 if who is not None:
                     who_dic[who] = text
@@ -421,7 +421,7 @@ class MyRuntimeForm(QDialog, Ui_runtimeForm):
             dic['file_name'] = file_name
             dic['line_number'] = line_number
             item = QListWidgetItem()
-            target_file = current_work_directory + '/game/tl/' + dic['lookup_lan'] + '/' + enhance_json_file_name
+            target_file = current_work_directory + '/game/tl/' + str(dic['lookup_lan']) + '/' + enhance_json_file_name
             who = dic['who']
             if os.path.isfile(target_file) and os.path.getsize(target_file):
                 f = io.open(target_file, 'r', encoding='utf-8')
@@ -446,7 +446,7 @@ class MyRuntimeForm(QDialog, Ui_runtimeForm):
                 text = dialog.getText()
                 dic['text'] = text
                 who = dic ['who']
-                target_file = current_work_directory + '/game/tl/' + dic['lookup_lan'] + '/' + enhance_json_file_name
+                target_file = current_work_directory + '/game/tl/' + str(dic['lookup_lan']) + '/' + enhance_json_file_name
                 if os.path.isfile(target_file) and os.path.getsize(target_file):
                     f = io.open(target_file, 'r', encoding='utf-8')
                     loaded_data = json.load(f)
@@ -491,12 +491,14 @@ class MyRuntimeForm(QDialog, Ui_runtimeForm):
                     if cur_id in js.keys():
                         cur_id = js[cur_id]
                         if 'who' in cur_id.keys():
-                            target_dir = current_work_directory + '/game/tl/' + cur_id['lookup_lan']
+                            target_dir = current_work_directory + '/game/tl/' + str(cur_id['lookup_lan'])
                             target_rpy_file = target_dir + '/' + enhance_rpy_file_name
                             target_json_file = target_dir  + '/' + enhance_json_file_name
                             if not os.path.isfile(
                                     target_rpy_file + 'c') or not compare_files(
                                     target_rpy_file, enhance_rpy_file_name):
+                                if not os.path.isdir(target_dir):
+                                    os.makedirs(target_dir, exist_ok=True)
                                 shutil.copyfile(enhance_rpy_file_name,
                                                 target_rpy_file)
                             if os.path.isfile(target_json_file) and os.path.getsize(target_json_file):
