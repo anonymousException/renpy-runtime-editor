@@ -4,7 +4,7 @@
 
 <div align=center>一款免费开源的 ren'py 实时编辑器</div>
 
-<div align=center><img src= "https://camo.githubusercontent.com/60c21c6ef57c61b0a329f621af32f87c9b4ffe0283eeebe8a453e60de2675c51/68747470733a2f2f696d672e736869656c64732e696f2f707970692f707976657273696f6e732f6c616d612d636c65616e6572"></div>
+<div align=center><img src= "https://img.shields.io/badge/python3.8-blue"></div>
 
 ------
 
@@ -42,7 +42,9 @@ https://github.com/anonymousException/renpy-runtime-editor/assets/157234942/6b1f
 
 如果游戏被打包了，需要解包：
 
-我一般是用从  https://f95zone.to/ 整来的  [UnRen-ultrahack.bat ](https://github.com/anonymousException/renpy-translator/blob/main/docs/tool/UnRen-ultrahack.bat) 来解包
+你可以用从 https://f95zone.to/ 整来的  [UnRen-ultrahack.bat ](https://github.com/anonymousException/renpy-translator/blob/main/docs/tool/UnRen-ultrahack.bat) 来解包
+
+或者用我的另一个工具 [renpy-translator](https://github.com/anonymousException/renpy-translator) 来解包
 
 ## 开发
 

@@ -5,7 +5,7 @@
 
 <div align=center>A free and open-source runtime editor for ren'py</div>
 
-<div align=center><img src= "https://camo.githubusercontent.com/60c21c6ef57c61b0a329f621af32f87c9b4ffe0283eeebe8a453e60de2675c51/68747470733a2f2f696d672e736869656c64732e696f2f707970692f707976657273696f6e732f6c616d612d636c65616e6572"></div>
+<div align=center><img src= "https://img.shields.io/badge/python3.8-blue"></div>
 
 ------
 
@@ -49,7 +49,9 @@ An unpacked ren‘py game (for what you can find .rpa files under the game direc
 
 if not you can try to unpack it
 
-I usually use [UnRen-ultrahack.bat](https://github.com/anonymousException/renpy-translator/blob/main/docs/tool/UnRen-ultrahack.bat) from https://f95zone.to/ to unpack the game
+You can use [UnRen-ultrahack.bat](https://github.com/anonymousException/renpy-translator/blob/main/docs/tool/UnRen-ultrahack.bat) from https://f95zone.to/ to unpack the game
+
+Or try my another tool [renpy-translator](https://github.com/anonymousException/renpy-translator) to unpack the game
 
 ## Development
 
