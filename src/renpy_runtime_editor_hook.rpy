@@ -1,4 +1,4 @@
-init python:
+init python early hide:
     import tempfile
     import inspect
     import io
@@ -42,7 +42,7 @@ init python:
     def my_hide_screen(tag, layer=None):
         if tag == 'director':
             renpy.ast.Translate.lookup = my_lookup
-        my_old_hide_screen()
+        my_old_hide_screen(tag, layer)
 
     def my_show_screen(_screen_name, *_args, **kwargs):
         if _screen_name == 'director':
@@ -50,6 +50,7 @@ init python:
         my_old_show_screen(_screen_name, *_args, **kwargs)
 
     renpy.show_screen = my_show_screen
+    renpy.hide_screen = my_hide_screen
 
     def my_reload_script():
         renpy.config.skipping = None

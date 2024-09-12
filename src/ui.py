@@ -56,7 +56,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 744, 22))
+        self.menubar.setGeometry(QRect(0, 0, 744, 21))
         self.aboutMenu = QMenu(self.menubar)
         self.aboutMenu.setObjectName(u"aboutMenu")
         MainWindow.setMenuBar(self.menubar)
@@ -80,7 +80,7 @@ class Ui_MainWindow(object):
         self.startButton.setText(QCoreApplication.translate("MainWindow", u"Start", None))
         self.refreshCheckBox.setText(QCoreApplication.translate("MainWindow", u"Auto Refresh After Return", None))
         self.copyrightLabel.setText(QCoreApplication.translate("MainWindow", u"\u00a92024 Last moment,All rights reserved.", None))
-        self.versionLabel.setText(QCoreApplication.translate("MainWindow", u"Version 1.5.0", None))
+        self.versionLabel.setText(QCoreApplication.translate("MainWindow", u"Version 1.6.0", None))
         self.logButton.setText(QCoreApplication.translate("MainWindow", u"Open Log File", None))
         self.aboutMenu.setTitle(QCoreApplication.translate("MainWindow", u"about", None))
     # retranslateUi
